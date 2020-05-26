@@ -1,7 +1,8 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask import Flask, render_template
-from sqlalchemy import Column, Integer, String, DateTime, Boolean
-from sqlalchemy.orm import sessionmaker
+from flask_wtf import FlaskForm
+from wtforms import StringField, SubmitField
+from wtforms.validators import DataRequired
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:123456@localhost:3306/banksystem?charset=utf8'
@@ -30,6 +31,16 @@ class User(db.Model):
     Card = db.relationship("Card", backref="User")
 
 
+class UserFrom(FlaskForm):
+    """用户表单数据验证"""
+    accountId = StringField(labe1='用户账号', validators=[DataRequired('请输入用户账号')],
+                            description='请输入用户账号', render_kw={'required': 'required', 'class': 'form-control'})
+    email = StringField(label='用户邮箱', validators=[DataRequired('请输入用户邮箱')],
+                        description='请输入用户邮箱', render_kw={'required': 'required', 'class': 'form-control'})
+    password = StringField(label='用户密码', validators=[DataRequired('请输入正确的秘密')],
+                           description='请输入密码邮箱', render_kw={'required': 'required', 'class': 'form-control'})
+    submit = SubmitField('提交')
+
 # 创建数据表
 # 使用drop_all清除数据库中的所有数据
 # db.drop_all()
@@ -39,8 +50,8 @@ class User(db.Model):
 
 @app.route('/login/')
 def login():
-    return render_template('login.html')
-
+    user_list = User.query.all()
+    return render_template('login.html', user_list=user_list)
 
 
 if __name__ == '__main__':

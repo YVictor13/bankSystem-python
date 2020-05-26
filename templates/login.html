@@ -5,6 +5,13 @@
     <title>登录</title>
 </head>
 <body>
-
+{% for obj in user_list %}
+    <div class="container">
+        <h2>{{ obj.id }}</h2>
+        <span>{{ obj.accountId }}</span>
+        <span>{{ obj.email }}</span>
+        <span>{{ obj.password }}</span>
+    </div>
+{% endfor %}
 </body>
 </html>
