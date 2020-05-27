@@ -3,13 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <title>404</title>
-     <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap--dist/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap--dist/css/bootstrap.min.css') }}">
 </head>
 <body>
-<div class="jumbotron">
-    <h1>404 Not Found!</h1>
-    <p>资源迷失在网络中，请正确操作，指导它回到你的身边！！</p>
-    <p><a class="btn btn-primary btn-lg" href="/index" role="button">返回首页</a></p>
+<div class="container">
+    <div class="row">
+        <div class="bs-example" data-example-id="default-navbar">
+            <div class="jumbotron">
+                <h1>404 Not Found!</h1>
+                <p>资源迷失在网络中，请正确操作，指导它回到你的身边！！</p>
+                <p><a class="btn btn-primary btn-lg" href="/login" role="button">返回首页</a></p>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 </html>
