@@ -1,5 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
-from flask import Flask, render_template, request, session, redirect, url_for
+from flask import Flask, render_template, request, session, redirect, url_for, flash
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, PasswordField
 from wtforms.fields.html5 import EmailField
@@ -50,26 +50,26 @@ class UserFrom(FlaskForm):
 # db.create_all()
 
 
-@app.route('/login/', methods=["POST", "GET"])
+# 登录界面
+@app.route('/')
 def login():
-    user_list = User.query.all()
-    form = UserFrom()
-    for item in user_list:
-        if form.validate_on_submit():
-            if item.accountId == form.accountId.data and item.password == form.password.data:
-                return redirect('/index/')
-    return render_template('login.html', form=form)
+    if not session.get('logged_in'):
+        return render_template('login.html')
+    else:
+        return render_template('index.html')
 
 
-@app.route('/index/',methods=["POST", "GET"])
-def index():
-    return render_template('index.html')
-
-
-# @app.route('/register/')
-# def register():
-#     form = UserFrom()
-#     return render_template('register.html', form=form)
+# 验证登录
+@app.route('/login', methods=['POST'])
+def do_admin_login():
+    password = request.form['password']
+    accountId = request.form['accountId']
+    obj = User.query.filter_by(accountId=accountId).first()
+    if password == obj.password:
+        session['logged_in'] = True
+    else:
+        flash('wrong password!')
+    return login()
 
 
 if __name__ == '__main__':

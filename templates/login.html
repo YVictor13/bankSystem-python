@@ -1,17 +1,32 @@
-{% block content_title %}
-    <h1 align="center">欢迎来到登录页面</h1>
-{% endblock %}
-{% block content %}
-            <form action="/login/" method="post">
-                {{ form.csrf_token }}
-                <div class="form-group">
-                    {{ form.accountId.label.text }}
-                    {{ form.accountId(class='form-control') }}
+<link rel="stylesheet" href="../static/style.css" type="text/css">
+{% block body %}
+    {% if session['logged_in'] %}
+        <p>你已登录成功</p>
+    {% else %}
+        <form action="/login" method="POST">
+            <div class="login">
+                <div class="login-screen">
+                    <div class="app-title">
+                        <h2>TheOneBanking</h2>
+                        <h6>我是小One，欢迎你的登录</h6>
+                    </div>
+
+                    <div class="login-form">
+                        <div class="control-group">
+                            <input type="text" class="login-field" value="" placeholder="accountId" name="accountId">
+                            <label for="login-name" class="login-field-icon fui-user"></label>
+                        </div>
+
+                        <div class="control-group">
+                            <input type="password" class="login-field" value="" placeholder="password" name="password">
+                            <label for="login-pass" class="login-field-icon fui-lock"></label>
+                        </div>
+
+                        <input type="submit" value="登录" class="btn btn-primary btn-Large btn-block">
+                    </div>
                 </div>
-                <div class="form-group">
-                    {{ form.password.label.text }}
-                    {{ form.password(class='form-control') }}
-                </div>
-                {{ form.submit }}
-            </form>
+            </div>
+        </form>
+
+    {% endif %}
 {% endblock %}
