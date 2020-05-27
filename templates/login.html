@@ -1,17 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>登录</title>
-</head>
-<body>
-{% for obj in user_list %}
-    <div class="container">
-        <h2>{{ obj.id }}</h2>
-        <span>{{ obj.accountId }}</span>
-        <span>{{ obj.email }}</span>
-        <span>{{ obj.password }}</span>
-    </div>
-{% endfor %}
-</body>
-</html>
+{% block content_title %}
+    <h1 align="center">欢迎来到登录页面</h1>
+{% endblock %}
+{% block content %}
+            <form action="/login/" method="post">
+                {{ form.csrf_token }}
+                <div class="form-group">
+                    {{ form.accountId.label.text }}
+                    {{ form.accountId(class='form-control') }}
+                </div>
+                <div class="form-group">
+                    {{ form.password.label.text }}
+                    {{ form.password(class='form-control') }}
+                </div>
+                {{ form.submit }}
+            </form>
+{% endblock %}

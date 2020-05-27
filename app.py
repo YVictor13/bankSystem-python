@@ -1,7 +1,8 @@
 from flask_sqlalchemy import SQLAlchemy
-from flask import Flask, render_template
+from flask import Flask, render_template, request, session, redirect, url_for
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField
+from wtforms import StringField, SubmitField, PasswordField
+from wtforms.fields.html5 import EmailField
 from wtforms.validators import DataRequired
 
 app = Flask(__name__)
@@ -33,13 +34,14 @@ class User(db.Model):
 
 class UserFrom(FlaskForm):
     """用户表单数据验证"""
-    accountId = StringField(labe1='用户账号', validators=[DataRequired('请输入用户账号')],
+    accountId = StringField(label='用户账号', validators=[DataRequired('请输入用户账号')],
                             description='请输入用户账号', render_kw={'required': 'required', 'class': 'form-control'})
-    email = StringField(label='用户邮箱', validators=[DataRequired('请输入用户邮箱')],
-                        description='请输入用户邮箱', render_kw={'required': 'required', 'class': 'form-control'})
-    password = StringField(label='用户密码', validators=[DataRequired('请输入正确的秘密')],
-                           description='请输入密码邮箱', render_kw={'required': 'required', 'class': 'form-control'})
+    email = EmailField(label='用户邮箱', validators=[DataRequired('请输入用户邮箱')],
+                       description='请输入用户邮箱', render_kw={'required': 'required', 'class': 'form-control'})
+    password = PasswordField(label='用户密码', validators=[DataRequired('请输入正确的秘密')],
+                             description='请输入密码邮箱', render_kw={'required': 'required', 'class': 'form-control'})
     submit = SubmitField('提交')
+
 
 # 创建数据表
 # 使用drop_all清除数据库中的所有数据
@@ -48,11 +50,27 @@ class UserFrom(FlaskForm):
 # db.create_all()
 
 
-@app.route('/login/')
+@app.route('/login/', methods=["POST", "GET"])
 def login():
     user_list = User.query.all()
-    return render_template('login.html', user_list=user_list)
+    form = UserFrom()
+    for item in user_list:
+        if form.validate_on_submit():
+            if item.accountId == form.accountId.data and item.password == form.password.data:
+                return redirect('/index/')
+    return render_template('login.html', form=form)
+
+
+@app.route('/index/',methods=["POST", "GET"])
+def index():
+    return render_template('index.html')
+
+
+# @app.route('/register/')
+# def register():
+#     form = UserFrom()
+#     return render_template('register.html', form=form)
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
