@@ -19,7 +19,7 @@ class Card(db.Model):
     name = db.Column(db.String(32), nullable=False)
     password = db.Column(db.String(32), nullable=False)
     money = db.Column(db.String(20), default=0)
-    User_id = db.Column(db.Integer, db.ForeignKey("User.id"), nullable=False)  # 外键字段
+    accountId = db.Column(db.String(64), db.ForeignKey("User.accountId"))  # 外键字段
 
 
 class User(db.Model):
@@ -44,9 +44,9 @@ class UserFrom(FlaskForm):
 
 
 # 创建数据表
-# 使用drop_all清除数据库中的所有数据
+# # 使用drop_all清除数据库中的所有数据
 # db.drop_all()
-# 创建所有的表
+# # 创建所有的表
 # db.create_all()
 
 
@@ -56,7 +56,7 @@ def login():
     if not session.get('logged_in'):
         return render_template('login.html')
     else:
-        return render_template('index.html')
+        return render_template('404.html')
 
 
 # 验证登录
@@ -67,9 +67,11 @@ def do_admin_login():
     obj = User.query.filter_by(accountId=accountId).first()
     if obj and password == obj.password:
         session['logged_in'] = True
+        return index()
     else:
         flash('wrong password!')
-    return login()
+        return login()
+
 
 
 @app.route('/register', methods=['GET'])
@@ -87,26 +89,45 @@ def do_register():
         password=password,
         email=email
     )
-    db.session.add(user_obj)
-    db.session.commit()
-    flash('注册成功')
-    return login()
+    try:
+        db.session.add(user_obj)
+        db.session.commit()
+        flash('注册成功')
+        return login()
+    except:
+        flash('注册失败')
+        return register()
 
 
 @app.route('/index', methods=['GET'])
 def index():
     return render_template('index.html')
 
+
 @app.route('/home', methods=['GET'])
 def home():
     return render_template('home.html')
 
 
-@app.route('/index', methods=['GET'])
+@app.route('/index', methods=['POST'])
 def update_index():
-
-    return render_template('index.html')
-
+    CardId = request.form['CardId']
+    password = request.form['password']
+    accountId = request.form['accountId']
+    email = request.form['email']
+    Card_obj = Card(
+        password=password,
+        accountId=accountId,
+        email=email,
+        CardId=CardId
+    )
+    try:
+        db.session.add(Card_obj)
+        db.session.commit()
+        flash('用户账号有误，请核实再输入')
+        return home()
+    except:
+        return index()
 
 
 @app.route('/login', methods=['GET'])

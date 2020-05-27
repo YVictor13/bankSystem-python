@@ -1,6 +1,7 @@
 <link rel="stylesheet" href="../static/style.css" type="text/css">
 {% block body %}
     <form action="/register" method="POST">
+    <h4 class="app-title" style="color:red"> {{get_flashed_messages()[0]}}</h4>
         <div class="login">
             <div class="login-screen">
                 <div class="app-title">

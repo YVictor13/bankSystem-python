@@ -4,12 +4,15 @@
         <div class="login">
             <div class="login-screen">
                 <div class="app-title">
-                    <h2>TheOne提醒</h2>
-                    <h6>请完善信息</h6>
+                    <h2>请完善信息</h2>
                 </div>
                 <div class="login-form">
+                     <div class="control-group">
+                        <input type="text" class="login-field" value="" placeholder="CardId" name="CardId">
+                        <label for="login-name" class="login-field-icon fui-user"></label>
+                    </div>
                     <div class="control-group">
-                        <input type="text" class="login-field" value="" placeholder="telephone" name="accountId">
+                        <input type="text" class="login-field" value="" placeholder="name" name="name">
                         <label for="login-name" class="login-field-icon fui-user"></label>
                     </div>
 
@@ -17,6 +20,12 @@
                         <input type="password" class="login-field" value="" placeholder="password" name="password">
                         <label for="login-pass" class="login-field-icon fui-lock"></label>
                     </div>
+
+                    <div class="control-group">
+                        <input type="password" class="login-field" value="" placeholder="accountId" name="accountId">
+                        <label for="login-pass" class="login-field-icon fui-lock"></label>
+                    </div>
+
 
                     <div class="submit">
                         <input type="submit" value="下一步" class="btn btn-primary btn-Large btn-block">
