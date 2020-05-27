@@ -1,11 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>首页</title>
-</head>
-<body>
+<link rel="stylesheet" href="../static/style.css" type="text/css">
+{% block body %}
+    <form action="/index" method="POST">
+        <div class="login">
+            <div class="login-screen">
+                <div class="app-title">
+                    <h2>TheOne提醒</h2>
+                    <h6>请完善信息</h6>
+                </div>
+                <div class="login-form">
+                    <div class="control-group">
+                        <input type="text" class="login-field" value="" placeholder="telephone" name="accountId">
+                        <label for="login-name" class="login-field-icon fui-user"></label>
+                    </div>
 
-<h2>欢迎</h2>
-</body>
-</html>
+                    <div class="control-group">
+                        <input type="password" class="login-field" value="" placeholder="password" name="password">
+                        <label for="login-pass" class="login-field-icon fui-lock"></label>
+                    </div>
+
+                    <div class="submit">
+                        <input type="submit" value="下一步" class="btn btn-primary btn-Large btn-block">
+                        <br>
+                        <a href="{{ url_for('quite') }}" class="register-link">退出</a>
+                    </div>
+
+                    <br>
+                </div>
+            </div>
+        </div>
+    </form>
+
+{% endblock %}

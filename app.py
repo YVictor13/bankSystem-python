@@ -65,16 +65,54 @@ def do_admin_login():
     password = request.form['password']
     accountId = request.form['accountId']
     obj = User.query.filter_by(accountId=accountId).first()
-    if password == obj.password:
+    if obj and password == obj.password:
         session['logged_in'] = True
     else:
         flash('wrong password!')
     return login()
 
 
-@app.route('/register',methods=['GET'])
+@app.route('/register', methods=['GET'])
 def register():
     return render_template('register.html')
+
+
+@app.route('/register', methods=['POST'])
+def do_register():
+    password = request.form['password']
+    accountId = request.form['accountId']
+    email = request.form['email']
+    user_obj = User(
+        accountId=accountId,
+        password=password,
+        email=email
+    )
+    db.session.add(user_obj)
+    db.session.commit()
+    flash('注册成功')
+    return login()
+
+
+@app.route('/index', methods=['GET'])
+def index():
+    return render_template('index.html')
+
+@app.route('/home', methods=['GET'])
+def home():
+    return render_template('home.html')
+
+
+@app.route('/index', methods=['GET'])
+def update_index():
+
+    return render_template('index.html')
+
+
+
+@app.route('/login', methods=['GET'])
+def quite():
+    session['logged_in'] = False
+    return login()
 
 
 if __name__ == '__main__':

@@ -8,17 +8,18 @@
 
 body {
     font-family: Arial;
-    background-color: lightgreen;
+    /*background-color: lightgreen;*/
     padding: 50px;
 }
 
 .login {
     margin: 20px auto;
-    width: 300px;
+    width: 350px;
 }
 
 .login-screen {
     background-color: #FFF;
+    border: 1px solid #0f0f0f;
     padding: 20px;
     border-radius: 5px
 }
@@ -44,7 +45,7 @@ input {
     font-size: 16px;
     font-weight: 200;
     padding: 10px 0;
-    width: 250px;
+    width: 300px;
     transition: border .5s;
 }
 
@@ -66,7 +67,7 @@ input:focus {
     box-shadow: none;
     transition: 0.25s;
     display: block;
-    width: 250px;
+    width: 300px;
     margin: 0 auto;
 }
 
@@ -80,9 +81,12 @@ input:focus {
     display: block;
     margin-top: 12px;
 }
-.register-link{
 
+.register-link {
+    color: lightgreen;
+    text-decoration: none;
 }
-.register-link:hover{
-    background-color: #2980B9;
+
+.register-link:hover {
+    color: #2980B9;
 }

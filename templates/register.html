@@ -1,11 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>注册</title>
-</head>
-<body>
+<link rel="stylesheet" href="../static/style.css" type="text/css">
+{% block body %}
+    <form action="/register" method="POST">
+        <div class="login">
+            <div class="login-screen">
+                <div class="app-title">
+                    <h5 style="color:lightgreen">欢迎注册TheOne银行客户端账号</h5>
+                </div>
 
-<h2>注册</h2>
-</body>
-</html>
+                <div class="login-form">
+                    <div class="control-group">
+                        <input type="text" class="login-field" value="" placeholder="telephone" name="accountId">
+                        <label for="login-name" class="login-field-icon fui-user"></label>
+                    </div>
+
+                    <div class="control-group">
+                        <input type="password" class="login-field" value="" placeholder="password" name="password">
+                        <label for="login-pass" class="login-field-icon fui-lock"></label>
+                    </div>
+
+                    <div class="control-group">
+                        <input type="email" class="login-field" value="" placeholder="email" name="email">
+                        <label for="login-pass" class="login-field-icon fui-lock"></label>
+                    </div>
+
+                    <input type="submit" value="注册" class="btn btn-primary btn-Large btn-block">
+                    <br>
+                    <a href="{{ url_for('login') }}" class="register-link">取消</a>
+                </div>
+            </div>
+        </div>
+    </form>
+{% endblock %}
