@@ -2,9 +2,10 @@
 {% block body %}
     <form action="/index" method="POST">
         <div class="login">
+            <h4 class="app-title" style="color:red"> {{get_flashed_messages()[0]}}</h4>
             <div class="login-screen">
                 <div class="app-title">
-                    <h2>请完善信息</h2>
+                    <h2 class="title">请完善信息</h2>
                 </div>
                 <div class="login-form">
                      <div class="control-group">
@@ -22,13 +23,13 @@
                     </div>
 
                     <div class="control-group">
-                        <input type="password" class="login-field" value="" placeholder="accountId" name="accountId">
+
+                        <input type="text" class="login-field" value="" placeholder="accountId" name="accountId">
                         <label for="login-pass" class="login-field-icon fui-lock"></label>
                     </div>
 
-
                     <div class="submit">
-                        <input type="submit" value="下一步" class="btn btn-primary btn-Large btn-block">
+                        <input type="submit" value="立即完善" class="btn btn-primary btn-Large btn-block">
                         <br>
                         <a href="{{ url_for('quite') }}" class="register-link">退出</a>
                     </div>

@@ -73,7 +73,6 @@ def do_admin_login():
         return login()
 
 
-
 @app.route('/register', methods=['GET'])
 def register():
     return render_template('register.html')
@@ -114,20 +113,26 @@ def update_index():
     CardId = request.form['CardId']
     password = request.form['password']
     accountId = request.form['accountId']
-    email = request.form['email']
+    name = request.form['name']
     Card_obj = Card(
         password=password,
         accountId=accountId,
-        email=email,
+        name=name,
         CardId=CardId
     )
-    try:
-        db.session.add(Card_obj)
-        db.session.commit()
-        flash('用户账号有误，请核实再输入')
-        return home()
-    except:
+
+    Card_one_obj = Card.query.filter_by(CardId=CardId).first()
+    if Card_one_obj:
+        flash('此银行卡已被绑定，请核实再输入')
         return index()
+    else:
+        try:
+            db.session.add(Card_obj)
+            db.session.commit()
+            return home()
+        except:
+            flash('用户账号有误，请核实再输入')
+            return index()
 
 
 @app.route('/login', methods=['GET'])

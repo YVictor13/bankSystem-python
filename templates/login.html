@@ -4,11 +4,12 @@
         <p>你已登录成功</p>
     {% else %}
         <form action="/login" method="POST">
+         <h4 class="app-title" style="color:red"> {{get_flashed_messages()[0]}}</h4>
             <div class="login">
                 <div class="login-screen">
                     <div class="app-title">
-                        <h2>TheOne</h2>
-                        <h6>我是小One，欢迎你的登录</h6>
+                        <h2 class="title">TheOne</h2>
+                        <h6 class="title">我是小One，欢迎你的登录</h6>
                     </div>
 
                     <div class="login-form">
