@@ -190,7 +190,8 @@ def mine():
     accountId = session.get('accountId')
     User_obj = User.query.filter_by(accountId=accountId).first()
     Card_obj_list = Card.query.filter_by(accountId=accountId)
-    return render_template('mine.html', User_obj=User_obj, Card_obj_list=Card_obj_list)
+    Transfer_obj_list = Transfer.query.filter_by(accountId=accountId)
+    return render_template('mine.html', User_obj=User_obj, Card_obj_list=Card_obj_list,Transfer_obj_list=Transfer_obj_list)
 
 
 if __name__ == '__main__':

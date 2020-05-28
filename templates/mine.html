@@ -1,10 +1,59 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
+<link rel="stylesheet" href="../static/style.css" type="text/css">
+<link rel="stylesheet" href="{{ url_for('static', filename='bootstrap--dist/css/bootstrap.min.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='bootstrap--dist/css/bootstrap-theme.min.css') }}">
+{% block head %}
     <title>我的</title>
-</head>
-<body>
+{% endblock %}
 
-</body>
-</html>
+{% block body %}
+    <div class="container">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">用户信息</h3>
+            </div>
+            <table class="table table-hover">
+                <tr class="active">
+                    <th>编号</th>
+                    <th>账号</th>
+                    <th>邮箱</th>
+                    <th>密码</th>
+                </tr>
+                <tr class="active">
+                    <th>{{ User_obj.id }}</th>
+                    <th>{{User_obj.accountId}}</th>
+                    <th>{{ User_obj.email }}</th>
+                    <th>{{ User_obj.password }}</th>
+                </tr>
+            </table>
+
+        </div>
+
+        {#    银行卡信息#}
+        <br/>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">银行卡信息</h3>
+            </div>
+
+            <table class="table table-hover">
+                <tr class="active">
+                    <th>银行卡账号</th>
+                    <th>用户账号</th>
+                    <th>用户名字</th>
+                    <th>密码</th>
+                    <th>余额</th>
+                </tr>
+                {% for  item in Card_obj_list %}
+                    <tr class="success">
+                        <th>{{ item.CardId }}</th>
+                        <th>{{ item.accountId }}</th>
+                        <th>{{ item.name }}</th>
+                        <th>{{ item.password }}</th>
+                        <th>{{ item.money }}</th>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+
+{% endblock %}
