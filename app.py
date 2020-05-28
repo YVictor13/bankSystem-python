@@ -33,12 +33,16 @@ class User(db.Model):
     email = db.Column(db.String(128), unique=True, nullable=False)
     password = db.Column(db.String(128), nullable=False)
     Card = db.relationship("Card", backref="User")
+    Deposit = db.relationship("Deposit", backref="User")
+    Transfer = db.relationship("Transfer", backref="User")
 
 
 class Transfer(db.Model):
     """转账表"""
     __tablename__ = "Transfer"  # 指明数据库表名
+
     id = db.Column(db.Integer, primary_key=True)  # 主键 整型的主键默认设置为自增
+    accountId = db.Column(db.String(64), db.ForeignKey("User.accountId"))  # 外键字段
     my_CardId = db.Column(db.Integer, db.ForeignKey("Card.CardId"))  # 外键字段
     other_CardId = db.Column(db.Integer, db.ForeignKey("Card.CardId"))  # 外键字段
     datetime = db.Column(db.DateTime, nullable=False)
@@ -49,20 +53,22 @@ class Deposit(db.Model):
     """存款表"""
     __tablename__ = "Deposit"
     id = db.Column(db.Integer, primary_key=True)  # 主键 整型的主键默认设置为自增
+    accountId = db.Column(db.String(64), db.ForeignKey("User.accountId"))  # 外键字段
     CardId = db.Column(db.Integer, db.ForeignKey("Card.CardId"))  # 外键字段
     datetime = db.Column(db.DateTime, nullable=False)
     money = db.Column(db.String(64), nullable=False)
 
 
-class UserFrom(FlaskForm):
-    """用户表单数据验证"""
-    accountId = StringField(label='用户账号', validators=[DataRequired('请输入用户账号')],
-                            description='请输入用户账号', render_kw={'required': 'required', 'class': 'form-control'})
-    email = EmailField(label='用户邮箱', validators=[DataRequired('请输入用户邮箱')],
-                       description='请输入用户邮箱', render_kw={'required': 'required', 'class': 'form-control'})
-    password = PasswordField(label='用户密码', validators=[DataRequired('请输入正确的秘密')],
-                             description='请输入密码邮箱', render_kw={'required': 'required', 'class': 'form-control'})
-    submit = SubmitField('提交')
+#
+# class UserFrom(FlaskForm):
+#     """用户表单数据验证"""
+#     accountId = StringField(label='用户账号', validators=[DataRequired('请输入用户账号')],
+#                             description='请输入用户账号', render_kw={'required': 'required', 'class': 'form-control'})
+#     email = EmailField(label='用户邮箱', validators=[DataRequired('请输入用户邮箱')],
+#                        description='请输入用户邮箱', render_kw={'required': 'required', 'class': 'form-control'})
+#     password = PasswordField(label='用户密码', validators=[DataRequired('请输入正确的秘密')],
+#                              description='请输入密码邮箱', render_kw={'required': 'required', 'class': 'form-control'})
+#     submit = SubmitField('提交')
 
 
 # # 创建数据表
@@ -73,6 +79,7 @@ class UserFrom(FlaskForm):
 
 
 # 登录界面
+
 @app.route('/')
 def login():
     if not session.get('logged_in'):
@@ -191,7 +198,9 @@ def mine():
     User_obj = User.query.filter_by(accountId=accountId).first()
     Card_obj_list = Card.query.filter_by(accountId=accountId)
     Transfer_obj_list = Transfer.query.filter_by(accountId=accountId)
-    return render_template('mine.html', User_obj=User_obj, Card_obj_list=Card_obj_list,Transfer_obj_list=Transfer_obj_list)
+    Deposit_obj_list = Deposit.query.filter_by(accountId=accountId)
+    return render_template('mine.html', User_obj=User_obj, Card_obj_list=Card_obj_list,
+                           Transfer_obj_list=Transfer_obj_list, Deposit_obj_list=Deposit_obj_list)
 
 
 if __name__ == '__main__':

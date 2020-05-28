@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block body %}
-    <div class="container">
+        {#信息部分#}
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h3 class="panel-title">用户信息</h3>
@@ -20,7 +20,7 @@
                 </tr>
                 <tr class="active">
                     <th>{{ User_obj.id }}</th>
-                    <th>{{User_obj.accountId}}</th>
+                    <th>{{ User_obj.accountId }}</th>
                     <th>{{ User_obj.email }}</th>
                     <th>{{ User_obj.password }}</th>
                 </tr>
@@ -36,7 +36,7 @@
             </div>
 
             <table class="table table-hover">
-                <tr class="active">
+                <tr class="success">
                     <th>银行卡账号</th>
                     <th>用户账号</th>
                     <th>用户名字</th>
@@ -54,6 +54,64 @@
                 {% endfor %}
             </table>
         </div>
+
+        {#        充值信息#}
+        <br/>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">充值记录</h3>
+            </div>
+
+            <table class="table table-hover">
+                <tr class="success">
+                    <th>编号</th>
+                    <th>用户账号</th>
+                    <th>卡号</th>
+                    <th>日期</th>
+                    <th>金额</th>
+                </tr>
+                {% for  item in Deposit_obj_list %}
+                    <tr class="success">
+                        <th>{{ item.id }}</th>
+                        <th>{{ item.accountId }}</th>
+                        <th>{{ item.CardId }}</th>
+                        <th>{{ item.datetime }}</th>
+                        <th>{{ item.money }}</th>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+        {#    转账记录#}
+        <br/>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">转账记录</h3>
+            </div>
+
+            <table class="table table-hover">
+                <tr class="success">
+                    <th>编号</th>
+                    <th>用户账号</th>
+                    <th>转出卡号</th>
+                    <th>接收卡号</th>
+                    <th>日期</th>
+                    <th>金额</th>
+                </tr>
+                {% for  item in Transfer_obj_list %}
+                    <tr class="success">
+                        <th>{{ item.id }}</th>
+                        <th>{{ item.accountId }}</th>
+                        <th>{{ item.my_CardId }}</th>
+                        <th>{{ item.other_CardId }}</th>
+                        <th>{{ item.datetime }}</th>
+                        <th>{{ item.money }}</th>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+
     </div>
+
 
 {% endblock %}
