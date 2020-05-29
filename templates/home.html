@@ -1,5 +1,5 @@
 {% extends 'home_nav.html' %}
- <link rel="stylesheet" href="../static/style.css" type="text/css">
+<link rel="stylesheet" href="../static/style.css" type="text/css">
 {% block title %}
     <title>首页</title>
 {% endblock %}
@@ -9,17 +9,20 @@
             <h3 class="panel-title">充值</h3>
         </div>
         <div class="panel-body">
-            <form class="form-inline" action="/home" method="POST">
+            <form class="form-inline" action="/home/deposit" method="POST">
                 <div class="form-group">
                     <label for="exampleInputName2">卡号</label>
                     <input type="text" class="form-control" id="exampleInputName2" placeholder="卡号" name="CardId">
                 </div>
                 <div class="form-group">
                     <label for="exampleInputEmail2">金额</label>
-                    <input type="email" class="form-control" id="exampleInputEmail2" placeholder="100" name="money">
+                    <input type="text" class="form-control" id="exampleInputEmail2" placeholder="100" name="money">
                 </div>
                 <button type="submit" class="btn-mine">充值</button>
             </form>
+            {% if session['deposit_flash'] %}
+                <div style="margin-top:10px;color:red;">{{ get_flashed_messages()[0] }}</div>
+            {% endif %}
         </div>
     </div>
     <br>
@@ -28,21 +31,32 @@
             <h3 class="panel-title">转账</h3>
         </div>
         <div class="panel-body">
-            <form action="/home" method="POST">
+            <form action="/home/transfer" method="POST">
                 <div class="form-group">
                     <label for="exampleInputEmail1">转出卡号</label>
-                    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="转出卡号" name="my_CardId">
+                    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="转出卡号"
+                           name="my_CardId">
                 </div>
                 <div class="form-group">
                     <label for="exampleInputPassword1">转入卡号</label>
-                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="转入卡号" name="other_CardId">
+                    <input type="text" class="form-control" id="exampleInputPassword1" placeholder="转入卡号"
+                           name="other_CardId">
                 </div>
-                 <div class="form-group">
+                <div class="form-group">
+                    <label for="exampleInputPassword1">密码</label>
+                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="密码"
+                           name="password">
+                </div>
+                <div class="form-group">
                     <label for="exampleInputPassword1">金额</label>
-                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="100" name="money">
+                    <input type="text" class="form-control" id="exampleInputPassword1" placeholder="100"
+                           name="money">
                 </div>
                 <button type="submit" class="btn-mine">转账</button>
             </form>
+            {% if  session['transfer_flash'] %}
+                <div style="margin-top:10px;color:red;">{{ get_flashed_messages()[0] }}</div>
+            {% endif %}
         </div>
     </div>
 

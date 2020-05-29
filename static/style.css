@@ -111,7 +111,8 @@ input:focus {
 
 .btn-mine {
     width: 80px;
-    height: 40px;
+    height: 30px;
+    border-radius: 6px;
     background-color: lightgreen;
     color: #ffffff;
 }

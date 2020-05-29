@@ -1,6 +1,8 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask import Flask, render_template, request, session, redirect, url_for, flash
+from datetime import datetime
 from flask_wtf import FlaskForm
+from sqlalchemy import null
 from wtforms import StringField, SubmitField, PasswordField
 from wtforms.fields.html5 import EmailField
 from wtforms.validators import DataRequired
@@ -134,6 +136,7 @@ def do_register():
         flash('注册成功')
         return redirect('/login')
     except:
+        db.session.rollback()
         flash('注册失败')
         return register()
 
@@ -169,6 +172,7 @@ def update_index():
             session['login_ok'] = True
             return redirect('/home')
         except:
+            db.session.rollback()
             flash('用户账号有误，请核实再输入')
             return index()
 
@@ -176,10 +180,12 @@ def update_index():
 # 退出功能
 @app.route('/login', methods=['GET'])
 def quite():
-    session['logged_in'] = False
-    session['login_ok'] = False
-    session['information_ok'] = False
-    session['accountId'] = ''
+    session['logged_in'] = null
+    session['login_ok'] = null
+    session['information_ok'] = null
+    session['accountId'] = null
+    session['deposit_flash'] = null
+    session['transfer_flash'] = null
     return login()
 
 
@@ -190,6 +196,93 @@ def home():
         return render_template('home.html')
     else:
         return render_template('404.html')
+
+
+# 充值功能
+@app.route('/home/deposit', methods=['POST'])
+def deposit():
+    accountId = session.get('accountId')
+    CardId = request.form['CardId']
+    money = request.form['money']
+    now_time = datetime.now()
+    Card_obj = Card.query.filter_by(CardId=CardId).first()
+    if not Card_obj:
+        flash('卡号不存在，请添加后再进行充值！！')
+        return redirect('/home')
+    if money == "":
+        flash('金额不能为空！！')
+        return redirect('/home')
+    if money.isdigit():
+        deposit_obj = Deposit(
+            accountId=accountId,
+            CardId=CardId,
+            money=money,
+            datetime=now_time
+        )
+        session['deposit_flash'] = True
+        session['transfer_flash'] = False
+        try:
+            db.session.query(Card).filter(Card.CardId == CardId).update(
+                {'money': int(money) + int(Card_obj.money)})
+            db.session.add(deposit_obj)
+            db.session.commit()
+            flash("充值成功！！")
+            return redirect('/home')
+        except:
+            db.session.rollback()
+            flash("充值失败！！")
+            return redirect('/home')
+    else:
+        flash("金额必须为整数！！")
+        return redirect('/home')
+
+
+@app.route('/home/transfer', methods=['POST'])
+def transfer():
+    accountId = session.get('accountId')
+    now_time = datetime.now()
+    my_CardId = request.form['my_CardId']
+    other_CardId = request.form['other_CardId']
+    money = request.form['money']
+    password = request.form['password']
+    Card_obj = Card.query.filter_by(CardId=my_CardId).first()
+    Card_obj_other = Card.query.filter_by(CardId=other_CardId).first()
+    if not Card_obj:
+        flash("此银行卡不存在，请添加后再尝试！！")
+        return redirect('/home')
+    if not Card_obj_other:
+        flash("此银行卡不存在，请确认后再尝试！！")
+        return redirect('/home')
+    if int(Card_obj.money) < int(money):
+        flash("余额不足！！")
+        return redirect('/home')
+    if password == Card_obj.password:
+        transfer_obj = Transfer(
+            accountId=accountId,
+            datetime=now_time,
+            my_CardId=my_CardId,
+            other_CardId=other_CardId,
+            money=money
+        )
+        session['deposit_flash'] = False
+        session['transfer_flash'] = True
+        try:
+            db.session.query(Card).filter(Card.CardId == my_CardId).update({'money':
+                                                                           int(Card_obj.money) - int(money)})
+            db.session.query(Card).filter(Card.CardId == other_CardId).update({'money':
+                                                                              int(Card_obj_other.money) + int(
+                                                                                  money)})
+            db.session.add(transfer_obj)
+            db.session.commit()
+            flash("转账成功！！")
+            return redirect('/home')
+        except:
+            db.session.rollback()
+            flash("转账失败，请核实信息后再尝试！！")
+            return redirect('/home')
+    else:
+        flash("密码不正确，请核实后再尝试！！")
+        return redirect('/home')
 
 
 @app.route('/home/mine')
