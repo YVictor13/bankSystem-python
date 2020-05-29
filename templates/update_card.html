@@ -1,0 +1,35 @@
+{% extends 'home_nav.html' %}
+{% block title %}
+    <title>更新操作</title>
+{% endblock %}
+
+{% block content %}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">更新信息</h3>
+        </div>
+        <div class="panel-body">
+             <form action="/home/mine/update" method="POST">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">邮箱</label>
+                    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="邮箱"
+                           name="email">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">密码</label>
+                    <input type="text" class="form-control" id="exampleInputPassword1" placeholder="密码"
+                           name="password">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">确认密码</label>
+                    <input type="text" class="form-control" id="exampleInputPassword1" placeholder="确认密码"
+                           name="sure_password">
+                </div>
+                <button type="submit" class="btn-mine">修改</button>
+            </form>
+            {% if session['deposit_flash'] %}
+                <div style="margin-top:10px;color:red;">{{ get_flashed_messages()[0] }}</div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

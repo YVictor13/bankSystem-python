@@ -268,10 +268,10 @@ def transfer():
         session['transfer_flash'] = True
         try:
             db.session.query(Card).filter(Card.CardId == my_CardId).update({'money':
-                                                                           int(Card_obj.money) - int(money)})
+                                                                                int(Card_obj.money) - int(money)})
             db.session.query(Card).filter(Card.CardId == other_CardId).update({'money':
-                                                                              int(Card_obj_other.money) + int(
-                                                                                  money)})
+                                                                                   int(Card_obj_other.money) + int(
+                                                                                       money)})
             db.session.add(transfer_obj)
             db.session.commit()
             flash("转账成功！！")
@@ -294,6 +294,22 @@ def mine():
     Deposit_obj_list = Deposit.query.filter_by(accountId=accountId)
     return render_template('mine.html', User_obj=User_obj, Card_obj_list=Card_obj_list,
                            Transfer_obj_list=Transfer_obj_list, Deposit_obj_list=Deposit_obj_list)
+
+
+@app.route('/home/mine/update/<name>', methods=['GET'])
+def update(name):
+    if name == 'user':
+        accountId = session.get('accountId')
+        new_obj = User.query.filter_by(accountId =accountId).first()
+        return render_template('update_user.html', new_obj=new_obj)
+    if name == 'card':
+        accountId = session.get('accountId')
+        return render_template('update_user.html')
+
+
+@app.route('/home/mine/add', methods=['POST'])
+def add():
+    return redirect('/home')
 
 
 if __name__ == '__main__':

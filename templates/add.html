@@ -4,6 +4,26 @@
 {% endblock %}
 
 {% block content %}
-
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">充值</h3>
+        </div>
+        <div class="panel-body">
+            <form class="form-inline" action="/home/mine/add" method="POST">
+                <div class="form-group">
+                    <label for="exampleInputName2">卡号</label>
+                    <input type="text" class="form-control" id="exampleInputName2" placeholder="卡号" name="CardId">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail2">金额</label>
+                    <input type="text" class="form-control" id="exampleInputEmail2" placeholder="100" name="money">
+                </div>
+                <button type="submit" class="btn-mine">充值</button>
+            </form>
+            {% if session['deposit_flash'] %}
+                <div style="margin-top:10px;color:red;">{{ get_flashed_messages()[0] }}</div>
+            {% endif %}
+        </div>
+    </div>
 
 {% endblock %}
