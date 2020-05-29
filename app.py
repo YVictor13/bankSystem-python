@@ -397,7 +397,40 @@ def update_card():
 
 @app.route('/home/mine/add', methods=['GET'])
 def add():
-    return redirect('/home')
+    return render_template('add.html')
+
+
+@app.route('/home/mine/add', methods=['POST'])
+def add_card():
+    accountId = session.get('accountId')
+    CardId = request.form['CardId']
+    password = request.form['password']
+    name = request.form['name']
+    if password == '' or CardId == '' or name == '':
+        session['add_ok'] = False
+        flash("所填内容不能为空！！")
+        return redirect('/home/mine/add')
+    Card_obj = Card.query.filter_by(CardId=CardId).first()
+    if Card_obj:
+        session['add_ok'] = False
+        flash("此银行卡已添加！！")
+        return redirect('/home/mine/add')
+    new_obj = Card(
+        money=0,
+        accountId=accountId,
+        CardId=CardId,
+        password=password,
+        name=name
+    )
+    try:
+        db.session.add(new_obj)
+        db.session.commit()
+        return redirect('/home/mine')
+    except:
+        db.session.rollback()
+        session['add_ok'] = False
+        flash("添加失败！！")
+        return redirect('/home/mine/add')
 
 
 if __name__ == '__main__':
