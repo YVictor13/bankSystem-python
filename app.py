@@ -180,14 +180,14 @@ def update_index():
 # 退出功能
 @app.route('/login', methods=['GET'])
 def quite():
-    session['logged_in'] = null
-    session['login_ok'] = null
-    session['information_ok'] = null
-    session['accountId'] = null
-    session['deposit_flash'] = null
-    session['transfer_flash'] = null
-    session['update_user_flash'] = null
-    session['update_card_flash'] = null
+    session['logged_in'] = False
+    session['login_ok'] = False
+    session['information_ok'] = False
+    session['accountId'] = False
+    session['deposit_flash'] = False
+    session['transfer_flash'] = False
+    session['update_user_flash'] = False
+    session['update_card_flash'] = False
     return login()
 
 
@@ -432,6 +432,10 @@ def add_card():
         flash("添加失败！！")
         return redirect('/home/mine/add')
 
+@app.route('/admin')
+@app.route('/admin/index',methods=['GET'])
+def admin_index():
+    return render_template('index.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
