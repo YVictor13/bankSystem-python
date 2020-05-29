@@ -432,10 +432,16 @@ def add_card():
         flash("添加失败！！")
         return redirect('/home/mine/add')
 
+
 @app.route('/admin')
-@app.route('/admin/index',methods=['GET'])
+@app.route('/admin/index', methods=['GET'])
 def admin_index():
-    return render_template('index.html')
+    obj_list = User.query.all()
+    card_list = Card.query.all()
+    transfer_list = Transfer.query.all()
+    deposit_list = Deposit.query.all()
+    return render_template('admin/index.html', obj_list=obj_list, card_list=card_list, transfer_list=transfer_list,deposit_list=deposit_list)
+
 
 if __name__ == '__main__':
     app.run(debug=True)

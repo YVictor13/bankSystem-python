@@ -1,11 +1,36 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>TheOne银行管理端</title>
-</head>
-<body>
-你好！！
+<link rel="stylesheet" type="text/css"
+      href="{{ url_for('static', filename='bootstrap--dist/css/bootstrap.min.css') }}">
+<link rel="stylesheet" href="../static/style.css" type="text/css">
 
-</body>
-</html>
+{% block head %}
+    <title>TheOne银行管理端</title>
+{% endblock %}
+
+{% block content %}
+    {#信息部分#}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">用户信息</h3>
+        </div>
+        <table class="table table-hover">
+            <tr class="active">
+                <th>编号</th>
+                <th>账号</th>
+                <th>邮箱</th>
+                <th>密码</th>
+            </tr>
+            {% for item in obj_list %}
+                <tr class="active">
+                    <th>{{ item.id }}</th>
+                    <th>{{ item.accountId }}</th>
+                    <th>{{ item.email }}</th>
+                    <th>{{ item.password }}</th>
+                </tr>
+            {% endfor %}
+        </table>
+
+    </div>
+    </div>
+
+
+{% endblock %}
