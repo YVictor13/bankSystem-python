@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css"
           href="{{ url_for('static', filename='bootstrap--dist/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="../static/style.css" type="text/css">
     {% block head %}
         <title>首页</title>
     {% endblock %}
@@ -11,46 +12,48 @@
 <body>
 <!-- 导航栏 -->
 <div class="container">
-    <nav class="navbar navbar-default">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-                        data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="/home">TheOne银行</a>
-            </div>
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav">
-                    <li class="active"><a href="/home">首页 <span class="sr-only">(current)</span></a></li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li class="dropdown">
-                        <a href="/home/mine" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                           aria-haspopup="true"
-                           aria-expanded="false">我的<span class="caret"></span></a>
-
-                        <ul class="dropdown-menu">
-                            <li><a href="#">Action</a></li>
-                            <li><a href="#">Another action</a></li>
+    <div class="row">
+        <div class="bs-example" data-example-id="default-navbar">
+            <nav class="navbar navbar-default">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                                data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="/home">TheOne银行</a>
+                    </div>
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <ul class="nav navbar-nav">
+                            <li class="active "><a href="/home">首页 <span class="sr-only">(current)</span></a></li>
                         </ul>
-                    </li>
-                </ul>
-            </div>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="dropdown">
+                                <a href="/home/mine"><span class="glyphicon glyphicon-user sys-color"></span></a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="{{ url_for('quite') }}">
+                                    <span class="glyphicon glyphicon-off sys-color"></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
         </div>
-    </nav>
-    <div class="bs-example" data-example-id="default-navbar">
-        <!-- 信息部分 -->
-        {% block content %}
-            <!-- 内容区域 -->
+        <div class="bs-example" data-example-id="default-navbar">
+            <!-- 信息部分 -->
+            {% block content %}
+                <!-- 内容区域 -->
+            {% endblock %}
+        </div>
+        {% block extrajs %}
+            <!-- 其他脚本 -->
         {% endblock %}
     </div>
-    {% block extrajs %}
-        <!-- 其他脚本 -->
-    {% endblock %}
 </div>
 </body>
 </html>

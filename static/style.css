@@ -29,8 +29,9 @@ body {
     text-align: center;
     color: lightgreen;
 }
-.title{
-    color:lightgreen;
+
+.title {
+    color: lightgreen;
 }
 
 .login-form {
@@ -93,4 +94,28 @@ input:focus {
 
 .register-link:hover {
     color: #2980B9;
+}
+
+.my-icon {
+    position: relative;
+    left: 80%;
+}
+
+.my-icon:hover {
+    color: lightgreen;
+}
+
+.sys-color:hover {
+    color: lightgreen;
+}
+
+.btn-mine {
+    width: 80px;
+    height: 40px;
+    background-color: lightgreen;
+    color: #ffffff;
+}
+
+.btn-mine:hover {
+    background-color: #2980B9;
 }
