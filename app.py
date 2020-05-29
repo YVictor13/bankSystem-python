@@ -186,6 +186,8 @@ def quite():
     session['accountId'] = null
     session['deposit_flash'] = null
     session['transfer_flash'] = null
+    session['update_user_flash'] = null
+    session['update_card_flash'] = null
     return login()
 
 
@@ -300,14 +302,100 @@ def mine():
 def update(name):
     if name == 'user':
         accountId = session.get('accountId')
-        new_obj = User.query.filter_by(accountId =accountId).first()
+        new_obj = User.query.filter_by(accountId=accountId).first()
         return render_template('update_user.html', new_obj=new_obj)
     if name == 'card':
         accountId = session.get('accountId')
-        return render_template('update_user.html')
+        new_obj_list = Card.query.filter_by(accountId=accountId)
+        return render_template('update_card.html', new_obj_list=new_obj_list)
 
 
-@app.route('/home/mine/add', methods=['POST'])
+@app.route('/home/mine/update/user', methods=['POST'])
+def update_user():
+    accountId = session.get('accountId')
+    email = request.form['email']
+    password = request.form['password']
+    sure_password = request.form['sure_password']
+    if (not email and password) or email == '':
+        if password == sure_password:
+            try:
+                db.session.query(User).filter(User.accountId == accountId).update({'password': password})
+                db.session.commit()
+                return redirect('/home/mine')
+            except:
+                db.session.rollback()
+                flash("修改失败！！")
+                session['update_user_flash'] = True
+                return redirect('/home/mine/update/user')
+        else:
+            flash("两次输入密码不正确，请核实后再输入！！！")
+            session['update_user_flash'] = True
+            return redirect('/home/mine/update/user')
+
+    else:
+        if not password:
+            try:
+                db.session.query(User).filter(User.accountId == accountId).update({'email': email})
+                db.session.commit()
+                return redirect('/home/mine')
+            except:
+                db.session.rollback()
+                session['update_user_flash'] = True
+                flash("修改失败！！")
+                return redirect('/home/mine/update/user')
+        else:
+            if password == sure_password:
+                try:
+                    db.session.query(User).filter(User.accountId == accountId).update(
+                        {'email': email, 'password': password})
+                    db.session.commit()
+                    return redirect('/home/mine')
+                except:
+                    db.session.rollback()
+                    flash("修改失败！！")
+                    session['update_user_flash'] = True
+                    return redirect('/home/mine/update/user')
+            else:
+                flash("两次输入密码不正确，请核实后再输入！！！")
+                session['update_user_flash'] = True
+                return redirect('/home/mine/update/user')
+
+
+@app.route('/home/mine/update/card', methods=['POST'])
+def update_card():
+    accountId = session.get('accountId')
+    password = request.form['password']
+    sure_password = request.form['sure_password']
+
+    if not password:
+        try:
+            db.session.query(Card).filter(Card.accountId == accountId).update({'accountId': accountId})
+            db.session.commit()
+            return redirect('/home/mine')
+        except:
+            db.session.rollback()
+            flash("修改失败！！")
+            session['update_card_flash'] = True
+            return redirect('/home/mine/update/card')
+    else:
+        if password == sure_password:
+            try:
+                db.session.query(Card).filter(Card.accountId == accountId).update(
+                    {'accountId': accountId, 'password': password})
+                db.session.commit()
+                return redirect('/home/mine')
+            except:
+                db.session.rollback()
+                flash("修改失败！！")
+                session['update_card_flash'] = True
+                return redirect('/home/mine/update/card')
+        else:
+            flash("两次输入密码不正确，请核实后再输入！！！")
+            session['update_card_flash'] = True
+            return redirect('/home/mine/update/card')
+
+
+@app.route('/home/mine/add', methods=['GET'])
 def add():
     return redirect('/home')
 
