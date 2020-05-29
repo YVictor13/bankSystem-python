@@ -1,11 +1,10 @@
-<link rel="stylesheet" href="../static/style.css" type="text/css">
-<link rel="stylesheet" href="{{ url_for('static', filename='bootstrap--dist/css/bootstrap.min.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='bootstrap--dist/css/bootstrap-theme.min.css') }}">
+{% extends 'home_nav.html' %}
+
 {% block head %}
     <title>我的</title>
 {% endblock %}
 
-{% block body %}
+{% block content %}
         {#信息部分#}
         <div class="panel panel-default">
             <div class="panel-heading">
