@@ -1,0 +1,34 @@
+{% extends '/admin/index_nav.html' %}
+<link rel="stylesheet" type="text/css"
+      href="{{ url_for('static', filename='bootstrap--dist/css/bootstrap.min.css') }}">
+<link rel="stylesheet" href="../static/style.css" type="text/css">
+
+{% block content %}
+    {#信息部分#}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">充值信息</h3>
+        </div>
+        <table class="table table-hover">
+            <tr class="success">
+                <th>编号</th>
+                <th>账号</th>
+                <th>卡号</th>
+                <th>金额</th>
+                <th>日期</th>
+            </tr>
+            {% for item in obj_list %}
+                <tr class="success">
+                    <th>{{ item.id }}</th>
+                    <th>{{ item.accountId }}</th>
+                    <th>{{ item.CardId }}</th>
+                    <th>{{ item.money }}</th>
+                    <th>{{ item.datetime }}</th>
+                </tr>
+            {% endfor %}
+        </table>
+
+    </div>
+
+
+{% endblock %}

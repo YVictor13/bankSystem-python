@@ -59,20 +59,7 @@ class Deposit(db.Model):
     CardId = db.Column(db.Integer, db.ForeignKey("Card.CardId"))  # 外键字段
     datetime = db.Column(db.DateTime, nullable=False)
     money = db.Column(db.String(64), nullable=False)
-
-
 #
-# class UserFrom(FlaskForm):
-#     """用户表单数据验证"""
-#     accountId = StringField(label='用户账号', validators=[DataRequired('请输入用户账号')],
-#                             description='请输入用户账号', render_kw={'required': 'required', 'class': 'form-control'})
-#     email = EmailField(label='用户邮箱', validators=[DataRequired('请输入用户邮箱')],
-#                        description='请输入用户邮箱', render_kw={'required': 'required', 'class': 'form-control'})
-#     password = PasswordField(label='用户密码', validators=[DataRequired('请输入正确的秘密')],
-#                              description='请输入密码邮箱', render_kw={'required': 'required', 'class': 'form-control'})
-#     submit = SubmitField('提交')
-
-
 # # 创建数据表
 # # 使用drop_all清除数据库中的所有数据
 # db.drop_all()
@@ -453,7 +440,7 @@ def deposit_admin():
 
 
 @app.route('/admin/transfer', methods=['GET'])
-def card_admin():
+def transfer_admin():
     obj_list = Transfer.query.all()
     return render_template('admin/transfer.html', obj_list=obj_list)
 

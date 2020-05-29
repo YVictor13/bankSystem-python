@@ -10,14 +10,14 @@
             <h3 class="panel-title">用户信息</h3>
         </div>
         <table class="table table-hover">
-            <tr class="active">
+            <tr class="success">
                 <th>编号</th>
                 <th>账号</th>
                 <th>邮箱</th>
                 <th>密码</th>
             </tr>
             {% for item in obj_list %}
-                <tr class="active">
+                <tr class="success">
                     <th>{{ item.id }}</th>
                     <th>{{ item.accountId }}</th>
                     <th>{{ item.email }}</th>
