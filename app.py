@@ -435,12 +435,27 @@ def add_card():
 
 @app.route('/admin')
 @app.route('/admin/index', methods=['GET'])
-def admin_index():
+def index_admin():
     obj_list = User.query.all()
-    card_list = Card.query.all()
-    transfer_list = Transfer.query.all()
-    deposit_list = Deposit.query.all()
-    return render_template('admin/index.html', obj_list=obj_list, card_list=card_list, transfer_list=transfer_list,deposit_list=deposit_list)
+    return render_template('admin/index.html', obj_list=obj_list)
+
+
+@app.route('/admin/card', methods=['GET'])
+def card_admin():
+    obj_list = Card.query.all()
+    return render_template('admin/card.html', obj_list=obj_list)
+
+
+@app.route('/admin/deposit', methods=['GET'])
+def deposit_admin():
+    obj_list = Deposit.query.all()
+    return render_template('admin/deposit.html', obj_list=obj_list)
+
+
+@app.route('/admin/transfer', methods=['GET'])
+def card_admin():
+    obj_list = Transfer.query.all()
+    return render_template('admin/transfer.html', obj_list=obj_list)
 
 
 if __name__ == '__main__':

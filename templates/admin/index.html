@@ -1,10 +1,7 @@
+{% extends '/admin/index_nav.html' %}
 <link rel="stylesheet" type="text/css"
       href="{{ url_for('static', filename='bootstrap--dist/css/bootstrap.min.css') }}">
 <link rel="stylesheet" href="../static/style.css" type="text/css">
-
-{% block head %}
-    <title>TheOne银行管理端</title>
-{% endblock %}
 
 {% block content %}
     {#信息部分#}
@@ -29,7 +26,6 @@
             {% endfor %}
         </table>
 
-    </div>
     </div>
 
 
