@@ -236,42 +236,46 @@ def transfer():
     password = request.form['password']
     Card_obj = Card.query.filter_by(CardId=my_CardId).first()
     Card_obj_other = Card.query.filter_by(CardId=other_CardId).first()
-    if not Card_obj:
-        flash("此银行卡不存在，请添加后再尝试！！")
+    if money.isdigit():
+        flash("金额必须为整数！！")
         return redirect('/home')
-    if not Card_obj_other:
-        flash("此银行卡不存在，请确认后再尝试！！")
-        return redirect('/home')
-    if int(Card_obj.money) < int(money):
-        flash("余额不足！！")
-        return redirect('/home')
-    if password == Card_obj.password:
-        transfer_obj = Transfer(
-            accountId=accountId,
-            datetime=now_time,
-            my_CardId=my_CardId,
-            other_CardId=other_CardId,
-            money=money
-        )
-        session['deposit_flash'] = False
-        session['transfer_flash'] = True
-        try:
-            db.session.query(Card).filter(Card.CardId == my_CardId).update({'money':
-                                                                                int(Card_obj.money) - int(money)})
-            db.session.query(Card).filter(Card.CardId == other_CardId).update({'money':
-                                                                                   int(Card_obj_other.money) + int(
-                                                                                       money)})
-            db.session.add(transfer_obj)
-            db.session.commit()
-            flash("转账成功！！")
-            return redirect('/home')
-        except:
-            db.session.rollback()
-            flash("转账失败，请核实信息后再尝试！！")
-            return redirect('/home')
     else:
-        flash("密码不正确，请核实后再尝试！！")
-        return redirect('/home')
+        if not Card_obj:
+            flash("此银行卡不存在，请添加后再尝试！！")
+            return redirect('/home')
+        if not Card_obj_other:
+            flash("此银行卡不存在，请确认后再尝试！！")
+            return redirect('/home')
+        if int(Card_obj.money) < int(money):
+            flash("余额不足！！")
+            return redirect('/home')
+        if password == Card_obj.password:
+            transfer_obj = Transfer(
+                accountId=accountId,
+                datetime=now_time,
+                my_CardId=my_CardId,
+                other_CardId=other_CardId,
+                money=money
+            )
+            session['deposit_flash'] = False
+            session['transfer_flash'] = True
+            try:
+                db.session.query(Card).filter(Card.CardId == my_CardId).update({'money':
+                                                                                    int(Card_obj.money) - int(money)})
+                db.session.query(Card).filter(Card.CardId == other_CardId).update({'money':
+                                                                                       int(Card_obj_other.money) + int(
+                                                                                           money)})
+                db.session.add(transfer_obj)
+                db.session.commit()
+                flash("转账成功！！")
+                return redirect('/home')
+            except:
+                db.session.rollback()
+                flash("转账失败，请核实信息后再尝试！！")
+                return redirect('/home')
+        else:
+            flash("密码不正确，请核实后再尝试！！")
+            return redirect('/home')
 
 
 @app.route('/home/mine')
@@ -447,3 +451,4 @@ def transfer_admin():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
